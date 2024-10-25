@@ -1,6 +1,12 @@
+ScreenManager:
+    Fenetre_Principale:
+    Fenetre_Configuration:
+    Fenetre_Categories:
+    Fenetre_Produits:
+    Fenetre_Suppression:
 
 <Fenetre_Principale>:
-
+    id:Fenetre_pri
     # Fenetre compelete
     BoxLayout:
         
@@ -140,7 +146,7 @@
                 background_color: 'red'
                 text: "Biere - BTN TEST"
                 on_press: 
-                    app.updateCategories()
+                    root.updateCategories()
             Button:
                 background_color: 'red'
                 text: "Vins"
@@ -256,6 +262,7 @@
                 on_press: app.root.current = 'Fenetre_Configuration'
 
 
+
 <Fenetre_Configuration>:
     BoxLayout:
         orientation: 'vertical'
@@ -272,7 +279,6 @@
         Button:
             text: "Retour"
             on_press: app.root.current = 'Fenetre_Principale'
-
 
 <Fenetre_Categories>:
     BoxLayout:
@@ -340,9 +346,6 @@
             text: "Annuler"
             background_color: 'orange'
             on_press: app.root.current = 'Fenetre_Configuration'
-
-
-
 
 <Fenetre_Suppression>:
     BoxLayout:

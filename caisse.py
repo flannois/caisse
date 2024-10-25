@@ -1,11 +1,19 @@
 from kivy.app import App
+from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.button import Button
-
+from kivy.uix.widget import Widget
 
 # Gestion d'import des différentes fenêtres
 class Fenetre_Principale(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(Fenetre_Principale, self).__init__(**kwargs)
+
+    def updateCategories(self):
+        print(self.ids)
+        if self.ids.label_test.text == "LOLOLOL":
+            self.ids.label_test.text = "LALA"
+        else:
+            self.ids.label_test.text = "LOLOLOL"
 
 class Fenetre_Configuration(Screen):
     pass
@@ -22,6 +30,7 @@ class Fenetre_Suppression(Screen):
 
 # Gestionnaire d'écran
 class CaisseApp(App):
+    
     def build(self):
         # Création d'un ScreenManager pour gérer les transitions
         self.sm = ScreenManager()
@@ -30,15 +39,8 @@ class CaisseApp(App):
         self.sm.add_widget(Fenetre_Categories(name='Fenetre_Categories'))
         self.sm.add_widget(Fenetre_Produits(name='Fenetre_Produits'))
         self.sm.add_widget(Fenetre_Suppression(name='Fenetre_Suppression'))
-        
+        print(self.sm.ids)
         return self.sm
-
-    def updateCategories(self):
-        self.fen = Fenetre_Principale()
-        print(self.fen.ids.label_test.text)
-
-        self.fen.ids.label_test.text = "OKOKOK"
-        print(self.fen.ids.label_test.text)
 
     def appui_bouton(self, btn):
         print(btn.text)
