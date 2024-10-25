@@ -1,9 +1,7 @@
-ScreenManager:
-    Fenetre_Principale:
-    Fenetre_Configuration:
-    Fenetre_Categories:
-    Fenetre_Produits:
-    Fenetre_Suppression:
+# app = CaisseApp
+# self = Button ou Label ou BoxLayout etc.
+# root = Fenetre en cours
+
 
 <Fenetre_Principale>:
     id:Fenetre_pri
@@ -144,7 +142,7 @@ ScreenManager:
             orientation: 'horizontal'
             Button:
                 background_color: 'red'
-                text: "Biere - BTN TEST"
+                text: "Bieres"
                 on_press: 
                     root.updateCategories()
             Button:
@@ -167,26 +165,26 @@ ScreenManager:
         GridLayout:
             rows: 5
             id: produits
-            text: 'test produits'
-            Label:
-                id: label_test
-                text: "LOLILOL"
+
             Button:
                 id: btn
                 background_color: 'purple'
                 text: "Stella 25"
                 on_press: 
                     app.appui_bouton(self)
+
             Button:
                 background_color: 'purple'
                 text: "Stella 33"
                 on_press: 
                     app.appui_bouton(self)
+            
             Button:
                 background_color: 'purple'
                 text: "Stella 50"
                 on_press: 
                     app.appui_bouton(self)
+            
             Button:
                 background_color: 'purple'
                 text: "Kwak 25"
@@ -261,8 +259,6 @@ ScreenManager:
                 text: "Config"
                 on_press: app.root.current = 'Fenetre_Configuration'
 
-
-
 <Fenetre_Configuration>:
     BoxLayout:
         orientation: 'vertical'
@@ -285,16 +281,26 @@ ScreenManager:
         orientation: 'vertical'
         Label:
             text: "Categories"
+
+        TextInput:
+            id: label_ajout_categorie
+            hint_text:'Entrer produit'
+            
+        Button:
+            id: btn_ajouter_categorie
+            text: "Ajouter"
+            on_press: root.ajouter_un_produit()
+
         Button:
             text: "Retour"
             on_press: app.root.current = 'Fenetre_Configuration'
 
-<Fenetre_Produits>:
+<Fenetre_Nouveau_Produit>:
     BoxLayout:
         orientation: 'vertical'
-
+        
         Label:
-            text: "Produit"
+            text: "Nouveau produit"
 
         BoxLayout:
             orientation: 'horizontal'
@@ -305,48 +311,26 @@ ScreenManager:
         BoxLayout:
             orientation: 'horizontal'
             Label:
-                text: 'Qté'
-            TextInput:
-
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
                 text: 'Prix'
             TextInput:
 
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: 'TVA'
-            TextInput:
 
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: 'Couleur police'
-            TextInput:
-
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: 'Couleur fond'
-            TextInput:
-
-        Button:
-            text: "Supprimer"
-            background_color: 'red'
-            on_press: app.root.current = 'Fenetre_Suppression'
+        ColorPicker:
+            
+            
+        ColorPicker:
         
-        Button:
-            text: "Enregistrer"
-            background_color: 'green'
-            on_press: app.root.current = 'Fenetre_Configuration'
-        
-        Button:
-            text: "Annuler"
-            background_color: 'orange'
-            on_press: app.root.current = 'Fenetre_Configuration'
-
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: "Annuler"
+                background_color: 'orange'
+                on_press: app.root.current = 'Fenetre_Configuration'
+            Button:
+                text: "Enregistrer"
+                background_color: 'green'
+                on_press: root.ajouter_un_produit()
+            
 <Fenetre_Suppression>:
     BoxLayout:
         orientation:'vertical'
