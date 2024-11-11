@@ -1,0 +1,73 @@
+Base de données:
+    Tables:
+        Paiements:
+            Ajout_paiement ET Modifier_paiement:
+                Id:
+                Nom:
+                Text:
+                Btn_couleur_text:
+                Btn_couleur_fond:
+            Supprimer_paiement:
+        Categories:
+            Ajout_categorie ET Modifier_categorie:
+                Id:
+                Nom:
+                Text:
+                Btn_couleur_text:
+                Btn_couleur_fond:
+            Supprimer_Categorie:
+        Produits:
+            Ajout_produit ET Modifier_produit:
+                id:
+                Categorie:
+                Nom:
+                Text:
+                Btn_couleur_text:
+                Btn_couleur_fond:
+                Prix:
+                Qte:
+            Supprimer_produit:
+
+*Fenetre_principale:
+*    Ligne_1:
+*        Resume:
+            -Liste_des_produits:
+                Text_produit:
+                Qté_produit:
+                Prix_produit:
+            -Total:
+
+*        Calculette:
+            -A CODER
+        
+        Liste_des_paiements:
+*    Ligne_2:
+        Liste_des_categories
+*    Ligne_3:
+        Liste_des_produits(categorie)
+*    Ligne_4:
+        Historique:
+        Ticket_Z:
+        Modifier:
+            ??????
+        Effacer_historique:
+        Changer_utilisateur:
+            INUTILE !
+        Quitter:
+*        Config:
+*            Categories:
+                Liste_des_categories:
+                    Btn_modifier:
+                        Titre:                    
+                    Btn_supprimer:
+                Label_categorie:
+                Btn_ajouter:
+                Btn_retour:
+            Produits:
+            Autre:
+
+
+    
+
+
+
