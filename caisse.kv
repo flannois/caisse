@@ -277,30 +277,19 @@
             on_press: app.root.current = 'Fenetre_Principale'
 
 <Fenetre_Categories>:
-
     BoxLayout:
-        id:liste_categories
         orientation: 'vertical'
         Label:
             text: "Categories"
 
         TextInput:
-            
+            id: label_ajout_categorie
             hint_text:'Entrer produit'
-        
-        Button:
-            text: "Test"
-            on_press: root.lister_categories()   
-        
+            
         Button:
             id: btn_ajouter_categorie
             text: "Ajouter"
-            on_press: root.ajouter_une_categorie()   
-        
-        Button:
-            id: btn_ajouter_categorie
-            text: "Ajouter"
-            on_press: root.ajouter_une_categorie()
+            on_press: root.ajouter_un_produit()
 
         Button:
             text: "Retour"

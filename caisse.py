@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.button import Button, Label
+from kivy.uix.button import Button
 
 # Gestion d'import des différentes fenêtres
 class Fenetre_Principale(Screen):
@@ -10,8 +10,9 @@ class Fenetre_Principale(Screen):
 
     def updateCategories(self):
         self.ids.produits.clear_widgets()
+
         self.ids.produits.add_widget(Button(text="LOLOLO"))
-    
+
 
 class Fenetre_Configuration(Screen):
     pass
@@ -40,16 +41,7 @@ class Fenetre_Categories(Screen):
     def ajouter_une_categorie(self):
         nom_categorie = self.ids.label_ajout_categorie.text
         print(f"Récupération event {nom_categorie}")
-        # Rediriger vers la fenêtre de configuration
-        app = App.get_running_app()
-        app.sm.current = 'Fenetre_Configuration'  # Change l'écran courant
-
-    def lister_categories(self):
-        liste = [1,2,3]
-        self.ids.liste_categories.add_widget(Label(text="LOLOLO"))
-    
-
-
+        
 class Fenetre_Suppression(Screen):
     pass
 
