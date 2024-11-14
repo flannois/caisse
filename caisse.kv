@@ -14,8 +14,9 @@
             Label:
                 id: calculette
                 text: "*Calculette"
-            Label:
-                id: paiements
+            BoxLayout:
+                orientation: 'vertical'
+                id: liste_type_paiements
                 text: "*Paiements"
     
         # Ligne 2
@@ -28,8 +29,6 @@
         BoxLayout:
             orientation: 'horizontal'
             id: liste_produits
-        Label:
-            text: "*Liste des produits"
         
         # Ligne 4
         BoxLayout:
@@ -54,6 +53,13 @@
             on_press: app.root.current = 'Fenetre_Categories'
 
         Button:
+            background_color: 'yellow'
+            text: "Paiements"
+            on_press: app.root.current = 'Fenetre_Paiements'
+
+        
+
+        Button:
             text: "Retour"
             on_press: app.root.current = 'Fenetre_Principale'
 
@@ -66,6 +72,7 @@
 
         TextInput:
             id: label_ajout_categorie
+            multiline: False
             hint_text:'Entrer produit'
             
         Button:
@@ -78,4 +85,25 @@
             text: "Retour"
             on_press: app.root.current = 'Fenetre_Configuration'
 
-  
+<Fenetre_Paiements>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Paiements"
+
+        TextInput:
+            id: label_ajout_paiement
+            multiline: False
+            hint_text:'Entrer paiement'
+            
+        Button:
+            id: btn_ajouter_categorie
+            text: "Ajouter"
+            on_press: root.ajouter_paiement()
+
+
+        Button:
+            text: "Retour"
+            on_press: app.root.current = 'Fenetre_Configuration'
+
+ 
