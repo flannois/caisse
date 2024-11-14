@@ -16,19 +16,26 @@
                 text: "*Calculette"
             BoxLayout:
                 orientation: 'vertical'
-                id: liste_type_paiements
-                text: "*Paiements"
+                GridLayout:
+
+                    cols: 2
+                    id: liste_type_paiements
+                    text: "*Paiements"
     
         # Ligne 2
-        GridLayout:
-            cols: 5
-            
-            id: liste_categories
-            
+        BoxLayout:
+            orientation: 'horizontal'
+            GridLayout:
+                cols: 7
+                
+                id: liste_categories
+                
         # Ligne 3
         BoxLayout:
             orientation: 'horizontal'
-            id: liste_produits
+            GridLayout:
+                cols: 7
+                id: liste_produits
         
         # Ligne 4
         BoxLayout:

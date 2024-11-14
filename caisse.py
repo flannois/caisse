@@ -20,19 +20,27 @@ class Fenetre_Principale(Screen):
         for cat in categories:
             btn = Button(text=cat.nom)
             btn.on_press = lambda nom=cat.nom: self.afficherProduits(nom)
-
+            btn.background_color = "red"
             self.ids.liste_categories.add_widget(btn)
 
     def afficherProduits(self, categorie):
         self.ids.liste_produits.clear_widgets()
         produits = bdd.lister_produits_par_categorie(categorie)
         for prod in produits:
-            self.ids.liste_produits.add_widget(Button(text=prod.nom))
+            btn = Button(text=prod.nom)
+            
+            btn.background_color = "green"
+            self.ids.liste_produits.add_widget(btn)
 
+           
     def afficherTypePaiements(self):
+
         type_paiements = bdd.lister_type_paiements()
         for paie in type_paiements:
-            self.ids.liste_type_paiements.add_widget(Button(text=paie.nom))
+            btn = Button(text=paie.nom)
+            
+            btn.background_color = "blue"
+            self.ids.liste_type_paiements.add_widget(btn)
 
 class Fenetre_Configuration(Screen):
     pass
