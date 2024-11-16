@@ -1,11 +1,23 @@
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.button import Button
-
+from kivy.uix.button import Button, Label
+from kivy.uix.popup import Popup
 from BaseDeDonnees import BaseDeDonnees
 
-bdd = BaseDeDonnees()
+
+
+def flashPopUp(msg):
+    # create content and add to the popup
+    
+    content = Button(text=msg)
+    popup = Popup(title="Alerte", content=content, auto_dismiss=False)
+
+    # bind the on_press event of the button to the dismiss function
+    content.bind(on_press=popup.dismiss)
+
+    # open the popup
+    popup.open()
 
 # Gestion d'import des différentes fenêtres
 class Fenetre_Principale(Screen):
@@ -52,12 +64,17 @@ class Fenetre_Categories(Screen):
     def ajouter_categorie(self):
         # Récupérer le nom de la catégorie
         nom_categorie = self.ids.label_ajout_categorie.text
+        print(nom_categorie)
         if not nom_categorie == "":
-            self.ids.label_ajout_categorie.text = ""
-            print(nom_categorie)
-            bdd.ajouter_categorie(nom_categorie)
+            try:
+                self.ids.label_ajout_categorie.text = ""
+                bdd.ajouter_categorie(nom_categorie)
+                flashPopUp("Catégorie ajoutée")
+
+            except Exception as e:
+                flashPopUp(str(e))
         else:
-            print("Champ vide")
+            flashPopUp("Champ vide")
  
 class Fenetre_Paiements(Screen):
     def on_pre_enter(self, **kwargs):
@@ -66,12 +83,17 @@ class Fenetre_Paiements(Screen):
     def ajouter_paiement(self):
         # Récupérer le nom de la catégorie
         nom_paiement = self.ids.label_ajout_paiement.text
+        print(nom_paiement)
         if not nom_paiement == "":
-            self.ids.label_ajout_paiement.text = ""
-            
-            bdd.ajouter_type_paiement(nom_paiement)
+            try:
+                self.ids.label_ajout_paiement.text = ""
+                bdd.ajouter_type_paiement(nom_paiement)
+                flashPopUp("Paiement ajouté")
+            except Exception as e:
+                flashPopUp(str(e))
+
         else:
-            print("Champ vide")
+            flashPopUp("Champ vide")
 
 
 class CaisseApp(App):
@@ -87,5 +109,10 @@ class CaisseApp(App):
         return self.sm
     
 if __name__ == '__main__':
-    
+    import os
+    os.chdir(os.path.dirname(__file__))
+    os.remove("bdd.db")
+    bdd = BaseDeDonnees()
+    bdd.init_db_test()
+
     CaisseApp().run()

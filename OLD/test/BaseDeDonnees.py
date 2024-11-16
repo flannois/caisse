@@ -30,48 +30,6 @@ class BaseDeDonnees:
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
 
-    def init_db_test(self):
-        # Ajout d'une catégorie
-        nouvelle_categorie = self.ajouter_categorie("Boissons")
-        nouveau_produit = self.ajouter_produit("Coca-Cola", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Fanta", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Orangina", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Sprite", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Coca cherry", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Red-bull", 3.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Jus de pomme", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Jus de fraise", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Jus de raisin", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Jus multifruit", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Biere", 3, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Eau", 0.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Eau Gazeuse", 0.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Thé", 2.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Rhum", 4.5, nouvelle_categorie.id)
-
-        
-        
-        nouvelle_categorie = self.ajouter_categorie("Snack")
-        nouveau_produit = self.ajouter_produit("Burger", 5.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Hot-dog", 4.5, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Chips", 2, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Gateau", 1.5, nouvelle_categorie.id)
-        
-        
-        nouvelle_categorie = self.ajouter_categorie("Restaurant")
-        nouveau_produit = self.ajouter_produit("Tartiflette", 10, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Raclette", 15, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Fish & chips", 7, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Pate bolo", 6, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Bavette", 10, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Entrecote", 15, nouvelle_categorie.id)
-        nouveau_produit = self.ajouter_produit("Fondue", 9, nouvelle_categorie.id)
-        
-        self.ajouter_type_paiement("Carte de crédit")
-        self.ajouter_type_paiement("Chéque")
-        self.ajouter_type_paiement("Liquide")
-        self.ajouter_type_paiement("Ticket restau")
-
     # Ajout d'une catégorie
     def ajouter_categorie(self, nom):
         categorie = Categorie(nom=nom)
@@ -86,7 +44,7 @@ class BaseDeDonnees:
         self.session.commit()
         return produit
 
-    # Ajout d'un moyen paiement
+    # Ajout d'un paiement
     def ajouter_type_paiement(self, nom):
         type_paiement = Type_Paiement(nom=nom)
         self.session.add(type_paiement)
@@ -172,3 +130,50 @@ class BaseDeDonnees:
     def lister_type_paiements(self):
         return self.session.query(Type_Paiement).all()
 
+# Exemple d'utilisation
+if __name__ == "__main__":
+    import os
+    os.chdir(os.path.dirname(__file__))
+    if not os.path.exists("bdd.db"):
+        bd = BaseDeDonnees()
+        
+        # Ajout d'une catégorie
+        nouvelle_categorie = bd.ajouter_categorie("Boissons")
+        nouveau_produit = bd.ajouter_produit("Coca-Cola", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Fanta", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Orangina", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Sprite", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Coca cherry", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Red-bull", 3.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Jus de pomme", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Jus de fraise", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Jus de raisin", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Jus multifruit", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Biere", 3, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Eau", 0.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Eau Gazeuse", 0.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Thé", 2.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Rhum", 4.5, nouvelle_categorie.id)
+
+        
+        
+        nouvelle_categorie = bd.ajouter_categorie("Snack")
+        nouveau_produit = bd.ajouter_produit("Burger", 5.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Hot-dog", 4.5, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Chips", 2, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Gateau", 1.5, nouvelle_categorie.id)
+        
+        
+        nouvelle_categorie = bd.ajouter_categorie("Restaurant")
+        nouveau_produit = bd.ajouter_produit("Tartiflette", 10, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Raclette", 15, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Fish & chips", 7, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Pate bolo", 6, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Bavette", 10, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Entrecote", 15, nouvelle_categorie.id)
+        nouveau_produit = bd.ajouter_produit("Fondue", 9, nouvelle_categorie.id)
+        
+        bd.ajouter_type_paiement("Carte de crédit")
+        bd.ajouter_type_paiement("Chéque")
+        bd.ajouter_type_paiement("Liquide")
+        bd.ajouter_type_paiement("Ticket restau")
