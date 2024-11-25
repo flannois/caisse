@@ -1,43 +1,41 @@
 from kivy.app import App
-from kivy.lang import Builder
-from kivy.uix.recycleview.views import RecycleDataViewBehavior
-from kivy.uix.recycleview import RecycleView
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.properties import StringProperty
-import sqlite3
+from kivy.uix.dropdown import DropDown
+from kivy.uix.label import Label
 
-from BaseDeDonnees import BaseDeDonnees
-bdd = BaseDeDonnees()
-
-
-
-# Widget personnalisé pour chaque élément de la liste
-class CategoryRow(BoxLayout, RecycleDataViewBehavior):
-    text = StringProperty("")
-    category_id = StringProperty("")
-
-    def delete_item(self):
-        bdd.supprimer_categorie(self.category_id)
-        App.get_running_app().root.update_categories()
-
-
-# RecycleView personnalisée
-class CategoryRecycleView(RecycleView):
+class DropdownExample(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.update_categories()
+        self.orientation = 'vertical'
 
-    def update_categories(self):
-        categories = bdd.lister_categories()
-        self.data = categories
+        # Label pour afficher l'option sélectionnée
+        self.label = Label(text="Sélectionnez une option")
+        self.add_widget(self.label)
 
+        # Création du DropDown
+        self.dropdown = DropDown()
 
-# L'application principale
-class CategoryApp(App):
+        # Options à ajouter dans le DropDown
+        options = ['Option 1', 'Option 2', 'Option 3']
+        for option in options:
+            btn = Button(text=option, size_hint_y=None, height=44)
+            # Ajouter une action au clic
+            btn.bind(on_release=lambda btn: self.select_option(btn.text))
+            self.dropdown.add_widget(btn)
+
+        # Bouton principal pour ouvrir le DropDown
+        self.main_button = Button(text='Menu déroulant', size_hint=(None, None), size=(200, 44))
+        self.main_button.bind(on_release=self.dropdown.open)
+        self.add_widget(self.main_button)
+
+    def select_option(self, option):
+        self.label.text = f"Vous avez sélectionné : {option}"
+        self.dropdown.dismiss()  # Fermer le menu déroulant
+
+class DropdownApp(App):
     def build(self):
-        return Builder.load_file("categories.kv")
+        return DropdownExample()
 
-
-if __name__ == "__main__":
-    CategoryApp().run()
+if __name__ == '__main__':
+    DropdownApp().run()

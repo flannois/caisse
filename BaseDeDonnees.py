@@ -67,17 +67,25 @@ class BaseDeDonnees:
         nouveau_produit = self.ajouter_produit("Entrecote", 15, nouvelle_categorie.id)
         nouveau_produit = self.ajouter_produit("Fondue", 9, nouvelle_categorie.id)
         
-        self.ajouter_type_paiement("Carte de crédit")
-        self.ajouter_type_paiement("Chéque")
-        self.ajouter_type_paiement("Liquide")
-        self.ajouter_type_paiement("Ticket restau")
+        self.ajouter_moyen_paiement("Carte de crédit")
+        self.ajouter_moyen_paiement("Chéque")
+        self.ajouter_moyen_paiement("Liquide")
+        self.ajouter_moyen_paiement("Ticket restau")
 
     # Ajout d'une catégorie
     def ajouter_categorie(self, nom):
-        categorie = Categorie(nom=nom)
-        self.session.add(categorie)
-        self.session.commit()
-        return categorie
+        if not nom == "":
+            try:
+                categorie = Categorie(nom=nom)
+                self.session.add(categorie)
+                self.session.commit()
+                return categorie
+            except Exception as e:
+                self.session.rollback()
+                return f"ERREUR : {e}"
+        else:
+            return "Champ vide"
+
 
     # Ajout d'un produit
     def ajouter_produit(self, nom, prix, categorie_id):
@@ -87,11 +95,19 @@ class BaseDeDonnees:
         return produit
 
     # Ajout d'un moyen paiement
-    def ajouter_type_paiement(self, nom):
-        type_paiement = Type_Paiement(nom=nom)
-        self.session.add(type_paiement)
-        self.session.commit()
-        return type_paiement
+    def ajouter_moyen_paiement(self, nom):
+        if not nom == "":
+            try:
+                moyen_paiement = Type_Paiement(nom=nom)
+                self.session.add(moyen_paiement)
+                self.session.commit()
+                return moyen_paiement
+            except Exception as e:
+                self.session.rollback()
+                return f"ERREUR : {e}"
+        else:
+            return "Champ vide"
+
 
     # Lecture d'une catégorie
     def lire_categorie(self, categorie_id):
@@ -102,7 +118,7 @@ class BaseDeDonnees:
         return self.session.query(Produit).filter_by(id=produit_id).first()
 
     # Lecture d'un paiement
-    def lire_type_paiement(self, paiement_id):
+    def lire_moyen_paiement(self, paiement_id):
         return self.session.query(Type_Paiement).filter_by(id=paiement_id).first()
 
     # Mise à jour d'une catégorie
@@ -124,8 +140,8 @@ class BaseDeDonnees:
         return produit
 
     # Mise à jour d'un paiement
-    def mettre_a_jour_type_paiement(self, paiement_id, methode):
-        type_paiement = self.lire_type_paiement(paiement_id)
+    def mettre_a_jour_moyen_paiement(self, paiement_id, methode):
+        type_paiement = self.lire_moyen_paiement(paiement_id)
         if type_paiement:
             type_paiement.methode = methode
             self.session.commit()
@@ -146,7 +162,7 @@ class BaseDeDonnees:
             self.session.commit()
 
     # Suppression d'un paiement
-    def supprimer_type_paiement(self, type_paiement_id):
+    def supprimer_moyen_paiement(self, type_paiement_id):
         type_paiement = self.lire_paiement(type_paiement_id)
         if type_paiement:
             self.session.delete(type_paiement)
@@ -169,6 +185,6 @@ class BaseDeDonnees:
         return []
 
     # Liste de tous les paiements
-    def lister_type_paiements(self):
+    def lister_moyen_paiements(self):
         return self.session.query(Type_Paiement).all()
 

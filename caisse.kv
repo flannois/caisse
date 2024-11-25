@@ -19,7 +19,7 @@
                 GridLayout:
 
                     cols: 2
-                    id: liste_type_paiements
+                    id: liste_moyen_paiements
                     text: "*Paiements"
     
         # Ligne 2
@@ -45,15 +45,20 @@
                 text: "*Liste actions"
             Button:
                 background_color: 'yellow'
-                id: btn_config
-                text: "Config"
-                on_press: app.root.current = 'Fenetre_Configuration'
+                id: btn_option
+                text: "Options"
+                on_press: app.root.current = 'Fenetre_Options'
 
                     
         
-<Fenetre_Configuration>:
+<Fenetre_Options>:
     BoxLayout:
         orientation: 'vertical'
+        Button:
+            background_color: 'red'
+            text: "Quitter l'application"
+            on_press: app.stop()
+
         Button:
             background_color: 'yellow'
             text: "Categories"
@@ -61,10 +66,13 @@
 
         Button:
             background_color: 'yellow'
+            text: "Produits"
+            on_press: app.root.current = 'Fenetre_Produit'
+
+        Button:
+            background_color: 'yellow'
             text: "Paiements"
             on_press: app.root.current = 'Fenetre_Paiements'
-
-        
 
         Button:
             text: "Retour"
@@ -90,7 +98,7 @@
 
         Button:
             text: "Retour"
-            on_press: app.root.current = 'Fenetre_Configuration'
+            on_press: app.root.current = 'Fenetre_Options'
 
 <Fenetre_Paiements>:
     BoxLayout:
@@ -111,5 +119,36 @@
 
         Button:
             text: "Retour"
-            on_press: app.root.current = 'Fenetre_Configuration'
+            on_press: app.root.current = 'Fenetre_Options'
 
+<Fenetre_Produit>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Produit"
+
+        BoxLayout:
+            orientation: 'horizontal'
+            id: liste_categorie_produit
+            multiline: False
+            hint_text:'Catégorie produit'
+        
+        TextInput:
+            id: label_nom_produit
+            multiline: False
+            hint_text:'Nom produit'
+        
+        TextInput:
+            id: label_prix_produit
+            multiline: False
+            hint_text:'Prix produit'
+
+        Button:
+            id: btn_ajouter_produit
+            text: "Ajouter"
+            on_press: root.ajouter_produit()
+
+
+        Button:
+            text: "Retour"
+            on_press: app.root.current = 'Fenetre_Options'
