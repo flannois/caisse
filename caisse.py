@@ -5,6 +5,8 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.dropdown import DropDown
+from functools import partial
+
 from BaseDeDonnees import BaseDeDonnees
 
 
@@ -65,29 +67,50 @@ class Fenetre_Options(Screen):
 class Fenetre_Produit(Screen):
     def on_pre_enter(self):
         # Options à ajouter dans le DropDown
+        super().on_pre_enter()
         categories = bdd.lister_categories()
-
+        self.ids.liste_categorie_produit.clear_widgets()
         for cat in categories:
             btn = Button(text=cat.nom, size_hint_y=None, height=44)
-            # Ajouter une action au clic
-            btn.bind(on_release=lambda btn: self.select_categorie(btn))
+            # Ajouter une action au clic en passant l'ID de la catégorie
+            btn.bind(on_release=partial(self.select_categorie, cat.id))
+            #btn.background_color = "grey"
             self.ids.liste_categorie_produit.add_widget(btn)
 
-    def select_categorie(self, cat):
-        cat.background_color='green'
-        self.categorie_id_a_ajouter = 1                             # A changer par l'id de la categorie
-        print(f"Vous avez sélectionné : {cat}")
+    def select_categorie(self, categorie_id, btn):
+        # Mettre à jour l'attribut de la classe avec l'ID de la catégorie sélectionnée
+        self.categorie_id_a_ajouter = categorie_id
+        
+        # Modifier l'apparence du bouton (optionnel)
+        btn.background_color = 'green'
+        
+        print(f"Vous avez sélectionné la catégorie avec l'ID : {categorie_id}")
 
     def ajouter_produit(self):
+        # Récupérer les données saisies
         nom = self.ids.label_nom_produit.text
-
+        if nom == "":
+            flashPopUp("Veuillez sélectionner un nom.")
+            return
+        
         prix = self.ids.label_prix_produit.text
+        if prix == "":
+            flashPopUp("Veuillez sélectionner un prix.")
+            return
 
-        self.categorie_id_a_ajouter = 1                             # A changer par l'id de la categorie
-        categorie_id = self.categorie_id_a_ajouter
+        # Utiliser l'ID de la catégorie sélectionnée
+        categorie_id = getattr(self, 'categorie_id_a_ajouter', None)
+        if categorie_id is None:
+            flashPopUp("Veuillez sélectionner une catégorie.")
+            return
 
+        # Ajouter le produit dans la base de données
         bdd.ajouter_produit(nom, prix, categorie_id)
-        flashPopUp(f"Produit {nom} ajouté")
+        self.ids.label_nom_produit.text = ""
+        self.ids.label_prix_produit.text = ""
+
+
+        flashPopUp(f"Produit {nom} ajouté dans la catégorie ID {categorie_id}")
 
 class Fenetre_Categories(Screen):
     def on_pre_enter(self, **kwargs):
