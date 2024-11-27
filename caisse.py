@@ -4,7 +4,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
-from kivy.uix.dropdown import DropDown
+from kivy.uix.gridlayout import GridLayout
+
+from kivy.uix.scrollview import ScrollView
 from functools import partial
 
 from BaseDeDonnees import BaseDeDonnees
@@ -29,10 +31,37 @@ def flashPopUp(msg):
 class Fenetre_Principale(Screen):
     def on_pre_enter(self, **kwargs):
         super(Fenetre_Principale, self).__init__(**kwargs)
-        
+        self.liste_resume = []
         self.afficherCategories()
         self.afficherTypePaiements()
         
+        
+    def actualiser_resume(self):
+        self.ids.resume.clear_widgets()
+        layout = GridLayout(cols=1, spacing=10, size_hint_y=None)
+        # Make sure the height is such that there is something to scroll.
+        layout.bind(minimum_height=layout.setter('height'))
+
+        for i in self.liste_resume:
+            texte = f"{i.nom}  :  {i.prix} €"
+            prod = Label(text=texte, size_hint_y=None, height=20)
+            layout.add_widget(prod)
+        self.ids.resume.add_widget(layout)
+
+    def vider_resume(self):
+        self.liste_resume = []
+        self.actualiser_resume()
+
+    def annuler_dernier_resume(self):
+        self.liste_resume = self.liste_resume[:-1]
+        self.actualiser_resume()
+
+    def calculer_total_resume(self):
+        self.total_resume = 0
+        for p in self.liste_resume:
+            self.total_resume += p.prix
+    
+
 
     def afficherCategories(self):
         self.ids.liste_categories.clear_widgets()
@@ -48,9 +77,14 @@ class Fenetre_Principale(Screen):
         produits = bdd.lister_produits_par_categorie(categorie)
         for prod in produits:
             btn = Button(text=prod.nom)
+            btn.on_press = lambda prod=prod: self.ajoute_produit_a_la_liste(prod)
             btn.background_color = "green"
+            
             self.ids.liste_produits.add_widget(btn)
 
+    def ajoute_produit_a_la_liste(self, prod):
+        self.liste_resume.append(prod)
+        self.actualiser_resume()
            
     def afficherTypePaiements(self):
         self.ids.liste_moyen_paiements.clear_widgets()
